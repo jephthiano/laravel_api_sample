@@ -18,5 +18,4 @@ Route::prefix('v1')->group(function () {
             'error_data' => [],
         ], 200);
     });  
-    
 });
