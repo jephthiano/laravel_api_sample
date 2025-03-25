@@ -30,7 +30,7 @@ class AuthService extends BaseService
             }
 
             // Generate authentication token (if using Laravel Sanctum or Passport)
-            $token = $user->createToken('authToken')->plainTextToken;
+            // $token = $user->createToken('authToken')->plainTextToken;
 
             $this->sendResponse($userData, 'Login successful', true, [], 200);
         } catch (Exception $e) {

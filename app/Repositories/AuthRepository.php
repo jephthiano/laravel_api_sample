@@ -25,4 +25,5 @@ class AuthRepository extends BaseRepository
             return $this->handleException($e);
         }
     }
+    
 }
