@@ -7,18 +7,20 @@ use Illuminate\Http\Request;
 
 class AuthService extends BaseService
 {
-    public function login()
+    public function login($data)
     {
         try {
+            //get the password where user email is this
 
+            //validate the email
+
+            //get user data and send back in response
+            $userData = [];
 
             return response()->json([
                 'status' => true,
                 'message' => 'Login successful',
-                'response_data' => [
-                    'token' => $user->createToken('API Token')->plainTextToken,
-                    'user' => $user
-                ],
+                'response_data' => $userData,
                 'error_data' => [],
             ], 200);
 

@@ -11,6 +11,16 @@ use Exception;
 
 class BaseRepository
 {
+    protected function sendResponse($data = [], $message, $status = true, $error = [], $statusCode = 200): JsonResponse
+    {
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'response_data' => $data,
+            'error_data' => $error,
+        ], $statusCode);
+    }
+    
     protected function handleException(Exception $e): JsonResponse
     {
         if ($e instanceof QueryException) {
