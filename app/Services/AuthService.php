@@ -18,21 +18,21 @@ class AuthService extends BaseService
     {
         try {
             //where user email is this
-            $userData = $this->authRepository->getSingleUserData($data['email'], 'email');
+            $user = $this->authRepository->getSingleUserData($data['email'], 'email');
 
-            if(!$userData) {
-                $this->sendResponse([], 'Incorrect email and password', false, [], 401);
+            if(!$user) {
+                return $this->sendResponse([], 'Incorrect email and password', false, [], 401);
             }
 
             // Verify password
             if (!Hash::check($data['password'], $user->password)) {
-                $this->sendResponse([], 'Incorrect email and password', false, [], 401);
+                return $this->sendResponse([], 'Incorrect email and password', false, [], 401);
             }
 
             // Generate authentication token (if using Laravel Sanctum or Passport)
             // $token = $user->createToken('authToken')->plainTextToken;
 
-            $this->sendResponse($userData, 'Login successful', true, [], 200);
+            return $this->sendResponse($user, 'Login successful', true, [], 200);
         } catch (Exception $e) {
             return $this->handleException($e);
         }

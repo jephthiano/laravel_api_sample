@@ -53,11 +53,16 @@ class AuthController extends BaseController
     */
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-        
-        $user = $this->authService->login($credentials);
+        try {
+            $credentials = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required'
+            ]);
+
+            return $this->authService->login($credentials);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
     }
+
 }
