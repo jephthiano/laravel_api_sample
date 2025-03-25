@@ -40,4 +40,13 @@ class BaseController extends Controller
         $errorData = (env('APP_ENV') === 'local' || env('APP_ENV') === 'development') ? ['error' => $e->getMessage()] : [];
         return $this->sendResponse([], 'Something went wrong', false, $errorData, 500);
     }
+
+    /**
+     * Manually trigger an error.
+     */
+
+     public function triggerError($message, $details = [])
+     {
+         throw new CustomApiException($message, 403, $details);
+     }
 }

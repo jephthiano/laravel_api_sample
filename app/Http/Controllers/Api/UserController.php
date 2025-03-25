@@ -16,10 +16,15 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    // public function index()
-    // {
-    //     return UserResource::collection(User::all());
-    // }
+    public function index()
+    {
+        try {
+            $categories = $this->companyCategoryService->getAll();
+            return $this->sendResponse('Companies retrieved successfully', $categories);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 
     // public function store(Request $request)
     // {

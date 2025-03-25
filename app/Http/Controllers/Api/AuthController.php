@@ -50,30 +50,17 @@ class AuthController extends BaseController
 
     /**
      * Log in a user.
-     */
+    */
     public function login(Request $request)
     {
-        try {
-            $credentials = $request->validate([
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        
+        $user = $this->authService->login($credentials);
 
-            $user = $this->authService->login($credentials);
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Login successful',
-                'response_data' => [
-                    'token' => $user->createToken('API Token')->plainTextToken,
-                    'user' => $user
-                ],
-                'error_data' => [],
-            ], 200);
-
-        } catch (Exception $e) {
-            return $this->handleException($e);
-        }
+        return $this->sendResponse($user, 'Login successful');
     }
 
     /**
