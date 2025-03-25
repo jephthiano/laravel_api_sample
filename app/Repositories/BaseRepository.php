@@ -20,6 +20,7 @@ class BaseRepository
             'error_data' => $error,
         ], $statusCode);
     }
+
     
     protected function handleException(Exception $e): JsonResponse
     {
@@ -36,7 +37,10 @@ class BaseRepository
         $errorData = (env('APP_ENV') === 'local' || env('APP_ENV') === 'development') ? ['error' => $e->getMessage()] : [];
         return $this->sendResponse([], 'Something went wrong', false, $errorData, 500);
     }
-
+    
+    /**
+     * Manually trigger an error.
+     */
     public function triggerError($message, $details = [])
     {
         throw new CustomApiException($message, 403, $details);

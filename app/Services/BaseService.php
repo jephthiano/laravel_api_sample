@@ -37,6 +37,9 @@ class BaseService
         return $this->sendResponse([], 'Something went wrong', false, $errorData, 500);
     }
 
+    /**
+     * Manually trigger an error.
+     */
     public function triggerError($message, $details = [])
     {
         throw new CustomApiException($message, 403, $details);

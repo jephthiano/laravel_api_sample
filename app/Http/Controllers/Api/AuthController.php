@@ -59,53 +59,5 @@ class AuthController extends BaseController
         ]);
         
         $user = $this->authService->login($credentials);
-
-        return $this->sendResponse($user, 'Login successful');
-    }
-
-    /**
-     * Get authenticated user.
-     */
-    public function user(Request $request)
-    {
-        try {
-            return response()->json([
-                'status' => true,
-                'message' => 'Authenticated user retrieved',
-                'response_data' => $request->user(),
-                'error_data' => [],
-            ], 200);
-
-        } catch (Exception $e) {
-            return $this->handleException($e);
-        }
-    }
-
-    /**
-     * Log out a user.
-     */
-    public function logout(Request $request)
-    {
-        try {
-            $this->authService->logout($request->user());
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Logged out successfully',
-                'response_data' => [],
-                'error_data' => [],
-            ], 200);
-
-        } catch (Exception $e) {
-            return $this->handleException($e);
-        }
-    }
-
-    /**
-     * Manually trigger an error.
-     */
-    public function triggerError($message, $details = [])
-    {
-        throw new CustomApiException($message, 403, $details);
     }
 }

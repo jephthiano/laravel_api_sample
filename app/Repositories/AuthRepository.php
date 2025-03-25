@@ -7,8 +7,22 @@ use Illuminate\Http\Request;
 
 class AuthRepository extends BaseRepository
 {
-    public function getUser()
+    public function getUser(): User|Collection
     {
-        return User::all();
+        try{
+            return User::all();
+            
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function getSingleUserData(string $param, string $type='id'): ?User
+    {
+        try {
+            return User::where($type, $param)->first();
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
     }
 }

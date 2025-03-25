@@ -2,28 +2,37 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Repositories\AuthRepository;
 
 class AuthService extends BaseService
 {
-    public function login($data)
+    public function __construct(AuthRepository $authRepository)
+    {
+        $this->authRepository = $authRepository;
+    }
+
+    public function login(array $data)
     {
         try {
-            //get the password where user email is this
+            //where user email is this
+            $userData = $this->authRepository->getSingleUserData($data['email'], 'email');
 
-            //validate the email
+            if(!$userData) {
+                $this->sendResponse([], 'Incorrect email and password', false, [], 401);
+            }
 
-            //get user data and send back in response
-            $userData = [];
+            // Verify password
+            if (!Hash::check($data['password'], $user->password)) {
+                $this->sendResponse([], 'Incorrect email and password', false, [], 401);
+            }
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Login successful',
-                'response_data' => $userData,
-                'error_data' => [],
-            ], 200);
+            // Generate authentication token (if using Laravel Sanctum or Passport)
+            $token = $user->createToken('authToken')->plainTextToken;
 
+            $this->sendResponse($userData, 'Login successful', true, [], 200);
         } catch (Exception $e) {
             return $this->handleException($e);
         }
