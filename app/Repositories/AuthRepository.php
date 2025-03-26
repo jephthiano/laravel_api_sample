@@ -25,5 +25,13 @@ class AuthRepository extends BaseRepository
             return $this->handleException($e);
         }
     }
-    
+
+    public function createUser(array $data)
+    {
+        try {
+            return User::create($data);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 }

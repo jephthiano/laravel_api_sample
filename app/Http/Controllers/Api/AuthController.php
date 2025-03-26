@@ -28,21 +28,11 @@ class AuthController extends BaseController
             $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:6|confirmed',
+                'username' => 'required|string|max:10|unique:users',
+                'password' => 'required|string|min:8|confirmed',
             ]);
 
-            $user = $this->authService->register($data);
-
-            return response()->json([
-                'status' => true,
-                'message' => 'User registered successfully',
-                'response_data' => [
-                    'token' => $user->createToken('API Token')->plainTextToken,
-                    'user' => $user
-                ],
-                'error_data' => [],
-            ], 201);
-
+            return $this->authService->register($data);
         } catch (Exception $e) {
             return $this->handleException($e);
         }

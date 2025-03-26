@@ -37,4 +37,13 @@ class AuthService extends BaseService
             return $this->handleException($e);
         }
     }
+
+    public function register( array $data)
+    {
+        try{
+            return $this->sendResponse($user, 'Registration successful', true, [], 201);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 }
