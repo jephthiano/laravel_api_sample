@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Repositories\AuthRepository;
 
 class AuthService extends BaseService

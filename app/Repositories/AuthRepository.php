@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class AuthRepository extends BaseRepository
 {

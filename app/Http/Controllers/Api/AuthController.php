@@ -6,9 +6,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Services\AuthService;
+use App\Http\Requests\AuthRequest;
+use Illuminate\Http\JsonResponse;
 use App\Exceptions\CustomApiException;
 use Exception;
+use App\Services\AuthService;
 
 class AuthController extends BaseController
 {
@@ -19,37 +21,24 @@ class AuthController extends BaseController
         $this->authService = $authService;
     }
 
-    /**
-     * Register a new user.
-     */
-    public function register(Request $request): JsonResponse
+    public function login(AuthRequest $request): JsonResponse
     {
         try {
-            $data = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'username' => 'required|string|max:10|unique:users',
-                'password' => 'required|string|min:8|confirmed',
-            ]);
-
-            return $this->authService->register($data);
+            $credentials = $request->only(['email', 'password']);
+            return $this->authService->login($credentials);
         } catch (Exception $e) {
             return $this->handleException($e);
         }
     }
 
     /**
-     * Log in a user.
-    */
-    public function login(Request $request): JsonResponse
+     * Register a new user.
+     */
+    public function register(AuthRequest $request): JsonResponse
     {
-        try {
-            $credentials = $request->validate([
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
-
-            return $this->authService->login($credentials);
+        try {            
+            $data = $request->only(['name', 'email', 'username', 'password']);
+            return $this->authService->register($data);
         } catch (Exception $e) {
             return $this->handleException($e);
         }
