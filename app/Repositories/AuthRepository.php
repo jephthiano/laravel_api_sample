@@ -7,17 +7,16 @@ use Illuminate\Http\Request;
 
 class AuthRepository extends BaseRepository
 {
-    public function getUser(): User|Collection
+    public function getUser(): User|Collection|JsonResponse|null
     {
         try{
             return User::all();
-            
         } catch (Exception $e) {
             return $this->handleException($e);
         }
     }
 
-    public function getSingleUserData(string $param, string $type='id'): ?User
+    public function getSingleUserData(string $param, string $type='id'): User|JsonResponse|null
     {
         try {
             return User::where($type, $param)->first();
@@ -26,7 +25,7 @@ class AuthRepository extends BaseRepository
         }
     }
 
-    public function createUser(array $data)
+    public function createUser(array $data): Model|JsonResponse
     {
         try {
             return User::create($data);

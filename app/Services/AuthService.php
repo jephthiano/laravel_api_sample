@@ -14,10 +14,9 @@ class AuthService extends BaseService
         $this->authRepository = $authRepository;
     }
 
-    public function login(array $data)
+    public function login(array $data): JsonResponse
     {
         try {
-            //where user email is this
             $user = $this->authRepository->getSingleUserData($data['email'], 'email');
 
             if(!$user) {
@@ -38,9 +37,10 @@ class AuthService extends BaseService
         }
     }
 
-    public function register( array $data)
+    public function register( array $data): JsonResponse
     {
         try{
+            $user = $this->authRepository->createUser($data);
             return $this->sendResponse($user, 'Registration successful', true, [], 201);
         } catch (Exception $e) {
             return $this->handleException($e);

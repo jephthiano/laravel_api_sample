@@ -22,7 +22,7 @@ class AuthController extends BaseController
     /**
      * Register a new user.
      */
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         try {
             $data = $request->validate([
@@ -41,7 +41,7 @@ class AuthController extends BaseController
     /**
      * Log in a user.
     */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         try {
             $credentials = $request->validate([
