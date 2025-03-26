@@ -40,7 +40,7 @@ class AuthService extends BaseService
     public function register( array $data): JsonResponse
     {
         try{
-            $user = $this->authRepository->createUser($data);
+            $user = $this->authRepository->createUser( $data);
             return $this->sendResponse($user, 'Registration successful', true, [], 201);
         } catch (Exception $e) {
             return $this->handleException($e);
