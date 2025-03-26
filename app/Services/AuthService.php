@@ -38,7 +38,6 @@ class AuthService extends BaseService
     }
 
     public function register( array $data): JsonResponse
-    
     {
         try{
             $user = $this->authRepository->createUser($data);
