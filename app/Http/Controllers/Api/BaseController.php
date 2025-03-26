@@ -23,10 +23,6 @@ class BaseController extends Controller
 
     protected function handleException(Exception $e): JsonResponse
     {
-        if ($e instanceof ValidationException) {
-            return $this->sendResponse([], 'Validation failed', false, $e->errors(), 422);
-        }
-
         if ($e instanceof QueryException) {
             $errorData = (env('APP_ENV') === 'local' || env('APP_ENV') === 'development') ? ['error' => $e->getMessage()] : [];
             return $this->sendResponse([], 'Database error occurred', false, $errorData, 500);
