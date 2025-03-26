@@ -39,7 +39,6 @@ class AuthService extends BaseService
 
     public function register( array $data): JsonResponse
 
-
     
     {
         try{
