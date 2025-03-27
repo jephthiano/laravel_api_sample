@@ -29,7 +29,6 @@ class AuthRepository extends BaseRepository
     public function createUser(array $data): User|JsonResponse|null
     {
 
-
         
         try {
             return User::create($data);
