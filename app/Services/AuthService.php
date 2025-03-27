@@ -47,4 +47,9 @@ class AuthService extends BaseService
             return $this->handleException($e);
         }
     }
+
+    public function logout( array $data): JsonResponse
+    {
+        return $this->sendResponse([], 'Logout successful', true, [], 200);
+    }
 }
