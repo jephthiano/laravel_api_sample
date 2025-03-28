@@ -50,6 +50,8 @@ class AuthService extends BaseService
 
     public function logout( array $data): JsonResponse
     {
+        $request->user()->tokens()->delete();
+
         return $this->sendResponse([], 'Logout successful', true, [], 200);
     }
 }
