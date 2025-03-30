@@ -30,9 +30,10 @@ class AuthService extends BaseService
             }
 
             // Generate authentication token (if using Laravel Sanctum or Passport)
-            // $token = $user->createToken('authToken')->plainTextToken;
+            $token = $user->createToken('authToken')->plainTextToken;
+            $data = ['token' => $token, 'data' => $user];
 
-            return $this->sendResponse($user, 'Login successful', true, [], 200);
+            return $this->sendResponse($data, 'Login successful', true, [], 200);
         } catch (Exception $e) {
             return $this->handleException($e);
         }
@@ -42,7 +43,12 @@ class AuthService extends BaseService
     {
         try{
             $user = $this->authRepository->createUser($data);
-            return $this->sendResponse($user, 'Registration successful', true, [], 201);
+
+            // Generate authentication token (if using Laravel Sanctum or Passport)
+            $token = $user->createToken('authToken')->plainTextToken;
+            $data = ['token' => $token, 'data' => $user];
+
+            return $this->sendResponse($data, 'Registration successful', true, [], 201);
         } catch (Exception $e) {
             return $this->handleException($e);
         }
@@ -50,8 +56,12 @@ class AuthService extends BaseService
 
     public function logout( array $data): JsonResponse
     {
-        $request->user()->tokens()->delete();
-
-        return $this->sendResponse([], 'Logout successful', true, [], 200);
+        try{
+            $request->user()->tokens()->delete();
+    
+            return $this->sendResponse([], 'Logout successful', true, [], 200);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
     }
 }
