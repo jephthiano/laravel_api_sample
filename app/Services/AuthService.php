@@ -63,6 +63,5 @@ class AuthService extends BaseService
         } catch (Exception $e) {
             return $this->handleException($e);
         }
-        
     }
 }
