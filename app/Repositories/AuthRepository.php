@@ -77,7 +77,6 @@ class AuthRepository extends BaseRepository
             return User::create($data);
         } catch (Exception $e) {
             return $this->handleException($e);
- 
         }
     }
 }
