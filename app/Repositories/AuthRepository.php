@@ -86,7 +86,6 @@ class AuthRepository extends BaseRepository
 
 
 
-
         
         try {
             return User::create($data);
