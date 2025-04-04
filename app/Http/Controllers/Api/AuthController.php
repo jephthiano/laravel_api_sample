@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AuthRequest;
 use Illuminate\Http\JsonResponse;
-use App\Exceptions\CustomApiException;
 use Exception;
 use App\Services\AuthService;
 
