@@ -33,6 +33,10 @@ class BaseController extends Controller
             return $this->sendResponse([], $e->getMessage(), false, $error, $e->getStatus());
         }
 
+        if ($e instanceof AuthorizationException) {
+            return $this->sendResponse([], 'You are not authorized to perform this action.', false, [], 403);
+        }
+
         $errorData = (env('APP_ENV') === 'local' || env('APP_ENV') === 'development') ? ['error' => $e->getMessage()] : [];
         return $this->sendResponse([], 'Something went wrong', false, $errorData, 500);
     }
