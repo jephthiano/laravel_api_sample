@@ -37,7 +37,7 @@ class BaseController extends Controller
 
 
 
-
+        
 
         
         if ($e instanceof QueryException) {
