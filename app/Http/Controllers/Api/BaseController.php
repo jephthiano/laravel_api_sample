@@ -23,7 +23,6 @@ class BaseController extends Controller
 
     protected function handleException(Exception $e): JsonResponse
     {
-
         
         if ($e instanceof QueryException) {
             $errorData = (env('APP_ENV') === 'local' || env('APP_ENV') === 'development') ? ['error' => $e->getMessage()] : [];
