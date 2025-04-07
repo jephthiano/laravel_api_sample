@@ -19,7 +19,7 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->uuid('user_id')->nullable()->index(); // UUID to match users table
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
@@ -37,9 +37,8 @@ return new class extends Migration
             $table->string('owner');
             $table->integer('expiration');
         });
-
         Schema::create('jobs', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // Keeping as INT for performance
             $table->string('queue')->index();
             $table->longText('payload');
             $table->unsignedTinyInteger('attempts');
@@ -49,7 +48,7 @@ return new class extends Migration
         });
 
         Schema::create('job_batches', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->uuid('id')->primary(); // Already UUID
             $table->string('name');
             $table->integer('total_jobs');
             $table->integer('pending_jobs');
@@ -62,7 +61,7 @@ return new class extends Migration
         });
 
         Schema::create('failed_jobs', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // INT is fine here
             $table->string('uuid')->unique();
             $table->text('connection');
             $table->text('queue');
@@ -70,9 +69,10 @@ return new class extends Migration
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
         });
+
         Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
-            $table->morphs('tokenable');
+            $table->uuidMorphs('tokenable'); // Proper for UUID morph targets
             $table->string('name');
             $table->string('token', 64)->unique();
             $table->text('abilities')->nullable();
