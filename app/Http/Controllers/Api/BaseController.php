@@ -57,7 +57,6 @@ class BaseController extends Controller
 
 
 
-
         
         if ($e instanceof QueryException) {
             $errorData = (env('APP_ENV') === 'local' || env('APP_ENV') === 'development') ? ['error' => $e->getMessage()] : [];
