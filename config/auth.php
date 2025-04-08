@@ -13,10 +13,11 @@ return [
     |
     */
 
-    'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
+    'default' => [
+        'guard' => env('AUTH_GUARD', 'api'),  // Change from 'web' to 'api'
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +41,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'api' => [
+            'driver' => 'sanctum',  // Add this if using Sanctum
+            'provider' => 'users',
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

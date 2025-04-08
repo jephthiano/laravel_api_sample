@@ -15,6 +15,6 @@ Route::prefix('v1')->group(function () {
             'message' => 'Invalid request',
             'response_data' => [],
             'error_data' => [],
-        ], 200);
+        ], 404);
     });  
 });

@@ -2,18 +2,27 @@
 
 namespace App\Services;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Repositories\UserRepository;
 
 class UserService extends BaseService
 {
-    public function getAllUsers()
+    public function __construct(UserRepository $userRepository)
     {
-        return User::all();
+        $this->userRepository = $userRepository;
     }
 
-    public function createUser(array $data)
+    public function getAllUsers(): JsonResponse
     {
-        return User::create($data);
+        try{
+            $users = $this->userRepository->getAll();
+
+            return $this->sendResponse(UserResource::collection($users), ' Users retrieved successfully', true, [], 200);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
     }
 }
