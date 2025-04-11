@@ -78,7 +78,6 @@ class UserController extends BaseController
 
 
 
-
     
 
     public function update(UserRequest $request, $id): JsonResponse
