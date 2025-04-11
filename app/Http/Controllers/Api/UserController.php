@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-// use App\Http\Requests\UserRequest;
-use App\Policies\UserPolicy;
+use App\Http\Requests\UserRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Exception;
 
 class UserController extends BaseController
 {
+    use AuthorizesRequests;
+
     protected $userService;
 
     public function __construct(UserService $userService)
@@ -30,47 +33,43 @@ class UserController extends BaseController
         }
     }
 
-    // public function show($id): JsonResponse
-    // {
-    //     try {
-    //         $user = $this->userService->getSingleUserData($id);
+    public function show($id): JsonResponse
+    {
+        try {
+            
+            $user = User::findOrFail($id);
+            $this->authorize('view', $user);
 
-    //         // $this->authorize('view', $user);
+            return $this->userService->getSingleUserData($id);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 
-    //         return $this->sendResponse('User retrieved successfully', new UserResource($user));
-    //     } catch (Exception $e) {
-    //         return $this->handleException($e);
-    //     }
-    // }
+    public function update(UserRequest $request, $id): JsonResponse
+    {
+        try {
+            $user = User::findOrFail($id);
 
-    // public function update(UserRequest $request, $id): JsonResponse
-    // {
-    //     try {
-    //         $user = $this->userService->getSingleUserData($id);
+            $this->authorize('update', $user);
 
-    //         // $this->authorize('update', $user);
+            $data = $request->only(['name', 'email', 'username']);
+            return $this->userService->updateUser($id, $data);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 
-    //         $data = $request->only(['name', 'email', 'username']);
-    //         $user = $this->userService->updateUser($id, $data);
+    public function destroy($id): JsonResponse
+    {
+        try {
+            $user = User::findOrFail($id);
 
-    //         return $this->sendResponse('User updated successfully', new UserResource($user));
-    //     } catch (Exception $e) {
-    //         return $this->handleException($e);
-    //     }
-    // }
+            $this->authorize('delete', $user);
 
-    // public function destroy($id): JsonResponse
-    // {
-    //     try {
-    //         $user = $this->userService->getSingleUserData($id);
-
-    //         // $this->authorize('delete', $user);
-
-    //         $this->userService->deleteUser($id);
-
-    //         return $this->sendResponse('User deleted successfully');
-    //     } catch (Exception $e) {
-    //         return $this->handleException($e);
-    //     }
-    // }
+            $this->userService->deleteUser($id);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 }
