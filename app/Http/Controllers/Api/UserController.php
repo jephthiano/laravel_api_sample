@@ -45,7 +45,6 @@ class UserController extends BaseController
             return $this->handleException($e);
         }
     }
-
     
 
     public function update(UserRequest $request, $id): JsonResponse
