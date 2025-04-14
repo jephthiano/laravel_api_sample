@@ -19,6 +19,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
 
-
     
 });
