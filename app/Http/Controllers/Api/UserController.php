@@ -59,7 +59,7 @@ class UserController extends BaseController
             return $this->handleException($e);
         }
     }
-
+    
     public function destroy($id): JsonResponse
     {
         try {
