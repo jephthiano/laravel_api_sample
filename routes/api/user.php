@@ -22,7 +22,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-
     
     // /api/users?page=2 and so on.....
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
