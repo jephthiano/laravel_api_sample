@@ -5,6 +5,8 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Enums\UserStatus;
+use App\Enums\AdminRole;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -30,12 +32,78 @@ class UserFactory extends Factory
             'username' => fake()->unique()->userName(),
             'country' => $this->faker->country(),
             'is_admin' => false,
+            'role' => AdminRole::User->value,
+            'birthdate' => fake()->date(),
+            'avatar' => fake()->imageUrl(640, 480, 'people'),
+            'provider' => null,
+            'provider_id' => null,
             'enable_2fa' => fake()->boolean(),
-            'status' => fake()->randomElement(['active', 'suspended']),
+            'status' => fake()->randomElement(UserStatus::values()),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     }
 
     /**

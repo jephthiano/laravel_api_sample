@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Enums\UserStatus;
+use App\Enums\AdminRole;
 
 class UserSeeder extends Seeder
 {
@@ -19,6 +20,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'username' => 'admin',
             'is_admin' => true,
+            'role' => AdminRole::SuperAdmin->value,
             'password' => Hash::make('password'),
             'status' => UserStatus::Active->value,
         ]);
