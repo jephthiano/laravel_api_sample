@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Enums\UserStatus;
 use App\Enums\AdminRole;
+use App\Enums\Role;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -32,7 +33,8 @@ class UserFactory extends Factory
             'username' => fake()->unique()->userName(),
             'country' => $this->faker->country(),
             'is_admin' => false,
-            'role' => AdminRole::User->value,
+            'role' => Role::User->value,
+            'admin_role' => null,
             'birthdate' => fake()->date(),
             'avatar' => fake()->imageUrl(640, 480, 'people'),
             'provider' => null,

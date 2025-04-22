@@ -25,6 +25,7 @@ class User extends Authenticatable
         'phone',
         'username',
         'country',
+        'avatar',
         'birthdate',
         'password',
     ];
@@ -159,7 +160,18 @@ class User extends Authenticatable
     #[Scope]
     public function adminRole($query, $type)
     {
-        $query->where('role', $type)->where('is_admin', true);
+        $query->where('admin_role', $type)->where('is_admin', true);
+    }
+
+    /**
+
+     * Scope a query to only include user with passed role.
+
+     */
+    #[Scope]
+    public function role($query, $type)
+    {
+        $query->where('role', $type);
     }
 
     /**

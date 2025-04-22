@@ -3,6 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\UserStatus;
+use App\Enums\AdminRole;
+use App\Enums\Role;
 
 return new class extends Migration
 {
@@ -19,33 +22,35 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('country');
             $table->boolean('is_admin')->default(false);
-            $table->enum('role', [
-                'super_admin',
-                'admin',
-                'customer_rep',
-                'product_manager',
-                'warehouse_manager',
-                'order_manager',
-                'marketing_manager',
-                'finance_manager',
-                'shipping_manager',
-                'content_manager',
-                'affiliate_manager',
-                'user',
-            ])->default('user');
+            $table->enum('role', Role::values())->default(Role::User->value);
+            $table->enum('admin_role', AdminRole::values())->nullable();
             $table->string('avatar')->nullable();
             $table->date('birthdate')->nullable();            
             $table->boolean('enable_2fa')->default(false);
             $table->string('provider')->nullable();
-            $table->string('provider_id')->nullable();
-            $table->enum('status', ['active', 'suspended'])->default('active');
+            $table->string('provider_id')->nullable(); 
+            $table->enum('status', UserStatus::values())->default(UserStatus::Active->value);
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
+        });
     }
-    
 
     /**
      * Reverse the migrations.
@@ -53,20 +58,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
     }
 };
-
-
-
-// // Creating an OTP
-// OtpCode::create([
-//     'receiving_medium' => 'user@example.com',
-//     'code' => '123456',
-//     'use_case' => 'verify_email',
-// ]);
-
-// // Checking a code
-// $otp = OtpCode::where('use_case', 'verify_email')
-//               ->valid()
-//               ->get()
-//               ->firstWhere(fn ($otp) => $otp->matchesCode('123456'));

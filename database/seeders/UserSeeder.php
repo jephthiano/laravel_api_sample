@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Enums\UserStatus;
 use App\Enums\AdminRole;
+use App\Enums\Role;
 
 class UserSeeder extends Seeder
 {
@@ -20,7 +21,19 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'username' => 'admin',
             'is_admin' => true,
-            'role' => AdminRole::SuperAdmin->value,
+            'role' => Role::Admin->value,
+            'admin_role' => AdminRole::SuperAdmin->value,
+            'password' => Hash::make('password'),
+            'status' => UserStatus::Active->value,
+        ]);
+
+        // 1 Logistics user
+        User::factory()->create([
+            'id' => Str::uuid(),
+            'name' => "logistics User",
+            'email' => "logistics@gmail.com",
+            'username' => "logistics",
+            'role' => Role::Logistics->value,
             'password' => Hash::make('password'),
             'status' => UserStatus::Active->value,
         ]);
@@ -32,6 +45,7 @@ class UserSeeder extends Seeder
                 'name' => "User {$i}",
                 'email' => "user{$i}@gmail.com",
                 'username' => "user{$i}",
+                'role' => Role::User->value,
                 'password' => Hash::make('password'),
                 'status' => UserStatus::Active->value,
             ]);
