@@ -95,7 +95,6 @@ class UserFactory extends Factory
 
 
 
-
         
     }
 
