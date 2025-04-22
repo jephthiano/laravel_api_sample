@@ -15,14 +15,18 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone')->nullable()->unique();
             $table->string('username')->unique();
-            $table->string('is_admin')->default(false);
+            $table->boolean('is_admin')->default(false);
+            $table->enum('status', ['active', 'suspended',])->default('active');
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
+        
     }
+    
 
     /**
      * Reverse the migrations.
@@ -32,3 +36,18 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
+
+
+
+// // Creating an OTP
+// OtpCode::create([
+//     'receiving_medium' => 'user@example.com',
+//     'code' => '123456',
+//     'use_case' => 'verify_email',
+// ]);
+
+// // Checking a code
+// $otp = OtpCode::where('use_case', 'verify_email')
+//               ->valid()
+//               ->get()
+//               ->firstWhere(fn ($otp) => $otp->matchesCode('123456'));

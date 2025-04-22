@@ -7,50 +7,169 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable;
 
-    public $incrementing = false; // Disable auto-increment
-    protected $keyType = 'string'; // Ensure UUID is treated as a string
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (!$model->id) {
-                $model->id = (string) Str::uuid();
-            }
-        });
-    }
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'username',
-        'is_admin',
+        'country',
+        'birthdate',
         'password',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
+     */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'is_admin' => 'boolean',
         ];
     }
-    
-    public function isAdmin()
+
+    /**
+     * Accessor & Mutator for the 'name' attribute.
+     */
+    public function name(): Attribute
     {
-        return $this->is_admin;
+        return Attribute::make(
+            get: fn ($value) => ucfirst($value),
+            set: fn ($value) => strtolower($value),
+        );
+    }
+
+    /**
+     * Accessor for the 'email' attribute.
+     */
+    public function email(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strtolower($value),
+            set: fn ($value) => strtolower($value),
+        );
+    }
+
+    /**
+     * Mutator for the 'password' attribute using Laravel's Hash facade.
+     */
+    public function password(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => Hash::make($value),
+        );
+    }
+
+    /**
+
+     * Scope a query to only include active users.
+
+     */
+
+     #[Scope]
+    public function admin($query)
+    {
+         $query->where('is_admin', true);
+    }
+
+    /**
+
+     * Scope a query to only include active users.
+
+     */
+
+     #[Scope]
+     protected function active(Builder $query): void
+     {
+         $query->where('status', 'active');
+     }
+
+     /**
+
+     * Scope a query to only include suspended users.
+
+     */
+     #[Scope]
+     protected function suspended(Builder $query): void
+     {
+         $query->where('status', 'suspended');
+     }
+
+     /**
+
+     * Scope a query to only include suspended users.
+
+     */
+    #[Scope]
+    protected function verify(Builder $query): void
+    {
+        $query->whereNotNull('email_verified_at');
+    }
+
+    /**
+
+     * Scope a query to only include inactive users.
+
+     */
+    #[Scope]
+    public function inactive($query, $days)
+    {
+        $query->where('last_login_at', '<=', now()->subDays($days));
+    }
+
+    /**
+
+     * Scope a query to only include recently registered users.
+
+     */
+    #[Scope]
+    public function recentlyRegistered($query, $days)
+    {
+        $query->where('created_at', '>=', now()->subDays($days));
+    }
+
+    /**
+
+     * Scope a query to only include admin with passed role.
+
+     */
+    #[Scope]
+    public function adminRole($query, $type)
+    {
+        $query->where('role', $type)->where('is_admin', true);
+    }
+
+    /**
+
+     * Scope a query to only include user from specific country.
+
+     */
+    #[Scope]
+    public function fromCountry($query, $country)
+    {
+        $query->where('country', $country);
     }
 }
