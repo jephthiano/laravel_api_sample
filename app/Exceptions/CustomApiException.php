@@ -3,14 +3,14 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
 
 class CustomApiException extends Exception
 {
     protected int $status;
+
     protected array $errorData;
 
-    public function __construct(string $message = "An error occurred", int $status = 400, array $errorData = [])
+    public function __construct(string $message = 'An error occurred', int $status = 400, array $errorData = [])
     {
         parent::__construct($message);
         $this->status = $status;

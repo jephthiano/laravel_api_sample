@@ -2,12 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Enums\Role;
+use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use App\Enums\UserStatus;
-use App\Enums\AdminRole;
-use App\Enums\Role;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -20,7 +19,7 @@ class UserFactory extends Factory
     protected static ?string $password;
 
     /**
- * Define the model's default state
+     * Define the model's default state
      *
      * @return array<string, mixed>
      */

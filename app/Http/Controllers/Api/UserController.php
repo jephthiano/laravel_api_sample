@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\UserService;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use App\Http\Requests\UserRequest;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Exception;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends BaseController
 {
@@ -36,7 +35,7 @@ class UserController extends BaseController
     public function show($id): JsonResponse
     {
         try {
-            
+
             $user = User::findOrFail($id);
             $this->authorize('view', $user);
 
@@ -54,12 +53,13 @@ class UserController extends BaseController
             $this->authorize('update', $user);
 
             $data = $request->only(['name', 'email', 'username']);
+
             return $this->userService->updateUser($id, $data);
         } catch (Exception $e) {
             return $this->handleException($e);
         }
     }
-    
+
     public function destroy($id): JsonResponse
     {
         try {

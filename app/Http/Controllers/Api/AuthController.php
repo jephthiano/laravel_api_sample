@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AuthRequest;
-use Illuminate\Http\JsonResponse;
-use Exception;
+use App\Models\User;
 use App\Services\AuthService;
+use Exception;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends BaseController
 {
@@ -24,6 +21,7 @@ class AuthController extends BaseController
     {
         try {
             $credentials = $request->only(['email', 'password']);
+
             return $this->authService->login($credentials);
         } catch (Exception $e) {
             return $this->handleException($e);
@@ -35,8 +33,9 @@ class AuthController extends BaseController
      */
     public function register(AuthRequest $request): JsonResponse
     {
-        try {            
+        try {
             $data = $request->only(['name', 'email', 'username', 'password']);
+
             return $this->authService->register($data);
         } catch (Exception $e) {
             return $this->handleException($e);
@@ -47,5 +46,4 @@ class AuthController extends BaseController
     {
         return $this->authService->logout();
     }
-
 }

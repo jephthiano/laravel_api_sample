@@ -3,21 +3,20 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class AuthRepository extends BaseRepository
 {
     public function getUser(): User|Collection|JsonResponse|null
     {
-        try{
+        try {
             return User::all();
         } catch (Exception $e) {
             return $this->handleException($e);
         }
     }
 
-    public function getSingleUserData(string $param, string $type='id'): User|JsonResponse|null
+    public function getSingleUserData(string $param, string $type = 'id'): User|JsonResponse|null
     {
         try {
             return User::where($type, $param)->first();

@@ -6,11 +6,11 @@ enum AdminRole: string
 {
     case SuperAdmin = 'super_admin';
     case Admin = 'admin';
-    case CustomerRep = 'customer_rep';  
+    case CustomerRep = 'customer_rep';
     case ProductManager = 'product_manager';
     case WarehouseManager = 'warehouse_manager';
     case OrderManager = 'order_manager';
-    case MarketingManager = 'marketing_managclearer';
+    case MarketingManager = 'marketing_manager';
     case FinanceManager = 'finance_manager';
     case ShippingManager = 'shipping_manager';
     case ContentManager = 'content_manager';

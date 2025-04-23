@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 
 class User extends Authenticatable
 {
@@ -85,44 +85,34 @@ class User extends Authenticatable
     }
 
     /**
-
      * Scope a query to only include active users.
-
      */
-
-     #[Scope]
+    #[Scope]
     public function admin($query)
     {
-         $query->where('is_admin', true);
+        $query->where('is_admin', true);
     }
 
     /**
-
      * Scope a query to only include active users.
-
      */
+    #[Scope]
+    protected function active(Builder $query): void
+    {
+        $query->where('status', 'active');
+    }
 
-     #[Scope]
-     protected function active(Builder $query): void
-     {
-         $query->where('status', 'active');
-     }
-
-     /**
-
+    /**
      * Scope a query to only include suspended users.
-
      */
-     #[Scope]
-     protected function suspended(Builder $query): void
-     {
-         $query->where('status', 'suspended');
-     }
+    #[Scope]
+    protected function suspended(Builder $query): void
+    {
+        $query->where('status', 'suspended');
+    }
 
-     /**
-
+    /**
      * Scope a query to only include suspended users.
-
      */
     #[Scope]
     protected function verify(Builder $query): void
@@ -131,9 +121,7 @@ class User extends Authenticatable
     }
 
     /**
-
      * Scope a query to only include inactive users.
-
      */
     #[Scope]
     public function inactive($query, $days)
@@ -142,9 +130,7 @@ class User extends Authenticatable
     }
 
     /**
-
      * Scope a query to only include recently registered users.
-
      */
     #[Scope]
     public function recentlyRegistered($query, $days)
@@ -153,9 +139,7 @@ class User extends Authenticatable
     }
 
     /**
-
      * Scope a query to only include admin with passed role.
-
      */
     #[Scope]
     public function adminRole($query, $type)
@@ -164,9 +148,7 @@ class User extends Authenticatable
     }
 
     /**
-
      * Scope a query to only include user with passed role.
-
      */
     #[Scope]
     public function role($query, $type)
@@ -175,9 +157,7 @@ class User extends Authenticatable
     }
 
     /**
-
      * Scope a query to only include user from specific country.
-
      */
     #[Scope]
     public function fromCountry($query, $country)

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use Illuminate\Support\Facades\Route;
 
 // Route::prefix('users')->group(function () {
 //     Route::get('/', [UserController::class, 'index']);
@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\UserController;
 //     Route::put('/{id}', [UserController::class, 'update']);
 //     Route::delete('/{id}', [UserController::class, 'destroy']);
 // });
-
 
 Route::middleware('auth:sanctum')->group(function () {
     // /api/users?page=2 and so on.....

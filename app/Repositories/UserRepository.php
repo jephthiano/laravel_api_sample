@@ -3,21 +3,19 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class UserRepository extends BaseRepository
 {
     public function getAll(int $perPage = 10)
     {
-        try{
+        try {
             return User::paginate($perPage);
         } catch (Exception $e) {
             return $this->handleException($e);
         }
     }
 
-    public function getSingleUserData(string $param, string $type='id')
+    public function getSingleUserData(string $param, string $type = 'id')
     {
         try {
             return User::where($type, $param)->first();
@@ -26,12 +24,12 @@ class UserRepository extends BaseRepository
         }
     }
 
-    
-    public function updateUser(string $id, array $data): User|null
+    public function updateUser(string $id, array $data): ?User
     {
         try {
             $user = User::findOrFail($id);
             $user->update($data);
+
             return $user;
         } catch (Exception $e) {
             return $this->handleException($e);
@@ -43,6 +41,7 @@ class UserRepository extends BaseRepository
         try {
             $user = User::findOrFail($id);
             $user->delete();
+
             return true;
         } catch (Exception $e) {
             return $this->handleException($e);

@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use App\Enums\UserStatus;
 use App\Enums\AdminRole;
 use App\Enums\Role;
+use App\Enums\UserStatus;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -30,9 +30,9 @@ class UserSeeder extends Seeder
         // 1 Logistics user
         User::factory()->create([
             'id' => Str::uuid(),
-            'name' => "logistics User",
-            'email' => "logistics@gmail.com",
-            'username' => "logistics",
+            'name' => 'logistics User',
+            'email' => 'logistics@gmail.com',
+            'username' => 'logistics',
             'role' => Role::Logistics->value,
             'password' => Hash::make('password'),
             'status' => UserStatus::Active->value,

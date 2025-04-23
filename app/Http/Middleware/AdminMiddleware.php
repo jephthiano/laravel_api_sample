@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Middleware;
 
 use Closure;
@@ -11,7 +10,7 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user() || !auth()->user()->isAdmin()) {
+        if (! auth()->user() || ! auth()->user()->isAdmin()) {
             return response()->json(['error' => 'Access denied'], 403);
         }
 

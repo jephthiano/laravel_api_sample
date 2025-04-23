@@ -3,10 +3,8 @@
 namespace App\Services;
 
 use App\Http\Resources\UserResource;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Repositories\UserRepository;
+use Illuminate\Http\JsonResponse;
 
 class UserService extends BaseService
 {
@@ -17,7 +15,7 @@ class UserService extends BaseService
 
     public function getAllUsers(): JsonResponse
     {
-        try{
+        try {
             $users = $this->userRepository->getAll();
 
             return $this->sendResponse(UserResource::collection($users), ' Users retrieved successfully', true, [], 200);
@@ -26,9 +24,9 @@ class UserService extends BaseService
         }
     }
 
-    public function getSingleUserData(string $id, string $type='id'): JsonResponse
+    public function getSingleUserData(string $id, string $type = 'id'): JsonResponse
     {
-        try{
+        try {
             $users = $this->userRepository->getSingleUserData($id, $type);
 
             return $this->sendResponse($users, ' User retrieved successfully', true, [], 200);
@@ -42,7 +40,7 @@ class UserService extends BaseService
         try {
             $user = $this->userRepository->getSingleUserData($id);
 
-            if (!$user) {
+            if (! $user) {
                 return $this->sendResponse([], 'User not found', false, [], 404);
             }
 
@@ -59,7 +57,7 @@ class UserService extends BaseService
         try {
             $user = $this->userRepository->getSingleUserData($id);
 
-            if (!$user) {
+            if (! $user) {
                 return $this->sendResponse([], 'Account not found', false, [], 404);
             }
 

@@ -2,11 +2,9 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Repositories\AuthRepository;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 
 class AuthService extends BaseService
 {
@@ -20,12 +18,12 @@ class AuthService extends BaseService
         try {
             $user = $this->authRepository->getSingleUserData($data['email'], 'email');
 
-            if(!$user) {
+            if (! $user) {
                 return $this->sendResponse([], 'Incorrect email and password', false, [], 401);
             }
 
             // Verify password
-            if (!Hash::check($data['password'], $user->password)) {
+            if (! Hash::check($data['password'], $user->password)) {
                 return $this->sendResponse([], 'Incorrect email and password', false, [], 401);
             }
 
@@ -39,9 +37,9 @@ class AuthService extends BaseService
         }
     }
 
-    public function register( array $data): JsonResponse
+    public function register(array $data): JsonResponse
     {
-        try{
+        try {
             $user = $this->authRepository->createUser($data);
 
             // Generate authentication token (if using Laravel Sanctum or Passport)
@@ -54,9 +52,9 @@ class AuthService extends BaseService
         }
     }
 
-    public function logout( array $data): JsonResponse
+    public function logout(array $data): JsonResponse
     {
-        try{
+        try {
             $request->user()->tokens()->delete();
 
             return $this->sendResponse([], 'Logout successful', true, [], 200);

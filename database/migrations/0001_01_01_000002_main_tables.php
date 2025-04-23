@@ -1,11 +1,11 @@
 <?php
 
+use App\Enums\AdminRole;
+use App\Enums\Role;
+use App\Enums\UserStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\UserStatus;
-use App\Enums\AdminRole;
-use App\Enums\Role;
 
 return new class extends Migration
 {
@@ -25,10 +25,10 @@ return new class extends Migration
             $table->enum('role', Role::values())->default(Role::User->value);
             $table->enum('admin_role', AdminRole::values())->nullable();
             $table->string('avatar')->nullable();
-            $table->date('birthdate')->nullable();            
+            $table->date('birthdate')->nullable();
             $table->boolean('enable_2fa')->default(false);
             $table->string('provider')->nullable();
-            $table->string('provider_id')->nullable(); 
+            $table->string('provider_id')->nullable();
             $table->enum('status', UserStatus::values())->default(UserStatus::Active->value);
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
