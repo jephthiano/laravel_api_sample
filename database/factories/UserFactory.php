@@ -41,7 +41,7 @@ class UserFactory extends Factory
             'enable_2fa' => fake()->boolean(),
             'status' => fake()->randomElement(UserStatus::values()),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => 'password',
             'remember_token' => Str::random(10),
         ];
     }
